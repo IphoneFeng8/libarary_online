@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>借书记录</title>
+        <link rel="stylesheet" type="text/css" href="../../css/user/bootstrap.min.css">
+        <link type="text/css" href="../../css/user/bootstrap-responsive.min.css" rel="stylesheet">
+        <link type="text/css" href="../../css/user/theme.css" rel="stylesheet">
+        <link type="text/css" href="../../css/user/font-awesome.css" rel="stylesheet">
+        <link type="text/css" href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600'
+              rel='stylesheet'>
+        <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                <i class="icon-reorder shaded"></i></a><a class="brand" href="index.html">Edmin </a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+                <ul class="nav nav-icons">
+                    <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
+                    <li><a href="#"><i class="icon-eye-open"></i></a></li>
+                    <li><a href="#"><i class="icon-bar-chart"></i></a></li>
+                </ul>
+                <form class="navbar-search pull-left input-append" action="#">
+                    <input type="text" class="span3">
+                    <button class="btn" type="button">
+                        <i class="icon-search"></i>
+                    </button>
+                </form>
+            </div>
+            <!-- /.nav-collapse -->
+        </div>
+    </div>
+    <!-- /navbar-inner -->
+</div>
+<!-- /navbar -->
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="span3">
+                <!--菜单栏-->
+                <div class="sidebar">
+                    <ul class="widget widget-menu unstyled">
+                        <li class="active"><a href="userIndex.html"><i class="menu-icon icon-dashboard"></i>首页
+                        </a></li>
+                        <li><a href="user-center.html"><i class="menu-icon icon-user"></i>个人资料</a></li>
+                        <li><a href="javascript:;"><i class="menu-icon icon-bullhorn"></i>消息<b class="label green pull-right">
+                            11</b> </a></li>
+                        <li><a class="collapsed" data-toggle="collapse" href="#togglePages"><i class="menu-icon icon-book">
+                        </i><i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right">
+                        </i>借还记录 </a>
+                            <ul id="togglePages" class="collapse unstyled">
+                                <li><a href="borrow-record.html"><i class="icon-inbox"></i>借书记录 </a></li>
+                                <li><a href="return-record.html"><i class="icon-inbox"></i>还书记录 </a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/user/userLogout"><i class="menu-icon icon-signout"></i>退出 </a></li>
+
+                    </ul>
+                </div>
+                <!--/.sidebar-->
+            </div>
+            <!--/.span3-->
+
+            <div class="span9">
+                <div class="content">
+                    <div class="module">
+                        <div class="module-head">
+                            <h3>借书记录</h3>
+                        </div>
+                        <div class="module-body">
+                            <!--用户资料-->
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>借书表id</th>
+                                    <th>书名</th>
+                                    <th>图书馆名</th>
+                                    <th>借书时间</th>
+                                    <th>借阅状态</th>
+                                </tr>
+                                </thead>
+                                <tbody id="borrow-list">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--分页导航-->
+                <div class="pagination pagination-centered">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination"  id="nav-bar">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.container-->
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="../../js/public/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+<script src="../../js/public/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdn.bootcss.com/flot/0.8.3/jquery.flot.js"></script>
+<script src="https://cdn.bootcss.com/flot/0.8.3/jquery.flot.resize.js"></script>
+<script src="https://cdn.bootcss.com/datatables/1.10.19/js/jquery.dataTables.js"></script>
+<script src="../../js/user/common.js" type="text/javascript"></script>
+<script src="../../js/user/borrow-record.js"></script>
+</body>

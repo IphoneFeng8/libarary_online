@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    <!-- 配置SpringMVC -->
+
+    <!-- 1.开启SpringMVC注解模式 -->
+    <mvc:annotation-driven />
+
+    <!-- 2.静态资源默认servlet配置-->
+    <mvc:default-servlet-handler/>
+
+    <!-- 3.配置html 显示ViewResolver -->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/resources/pages/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+
+    <!-- 4.扫描controller相关的bean -->
+    <context:component-scan base-package="cn.library_online.controller"/>
+
+    <!-- 5.配置文件上传解析器  id 名称必须为multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置请求的编码格式-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+<!--    &lt;!&ndash;登录拦截器&ndash;&gt;-->
+<!--    <mvc:interceptors>-->
+<!--        &lt;!&ndash; 关于拦截器的配置问题 ,可以通过<mvc:interceptor>来配置使用哪个拦截器来【不】拦截的路径 &ndash;&gt;-->
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash; 用<mvc:mapping>标签指定要拦截的路径 &ndash;&gt;-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            &lt;!&ndash; 指定使用哪个拦截器进行拦截 &ndash;&gt;-->
+<!--            <bean class="cn.library_online.sys_common.interceptor.Interceptor"/>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+</beans>
