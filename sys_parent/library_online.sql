@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50709
 File Encoding         : 65001
 
-Date: 2019-11-22 20:51:27
+Date: 2019-11-23 17:22:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -288,7 +288,7 @@ CREATE TABLE `user` (
   `user_pwd` varchar(18) DEFAULT NULL,
   `user_status` int(4) DEFAULT '1',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -312,21 +312,19 @@ CREATE TABLE `user_info` (
   `user_age` int(4) DEFAULT NULL,
   `user_email` varchar(30) DEFAULT NULL,
   `user_id_card` varchar(20) DEFAULT NULL,
-  `font_of_card` varchar(255) DEFAULT NULL,
-  `back_of_card` varchar(255) DEFAULT NULL,
   `borrow_count` int(8) DEFAULT '0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_phone` (`user_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
-INSERT INTO `user_info` VALUES ('1', '小明', '男', '广州天河元岗路白云小区三街4栋805', '18647895487', '20', '18647895487@163.com', '440982205487458746', null, null, '0');
-INSERT INTO `user_info` VALUES ('2', '小黄daaa', '男', '广州天河元岗路白云小区三街4栋805', '18627895487', '20', '18647895487@163.com', '440982204487458746', null, null, '0');
-INSERT INTO `user_info` VALUES ('11', '789', '7', '7898796', '78978', '78987', '789879', '87978', null, null, '0');
-INSERT INTO `user_info` VALUES ('12', '456', '6', '345', '34656', '45645', '345', '456', null, null, '0');
-INSERT INTO `user_info` VALUES ('13', '3246', '4', '146', '3246', '16', '646', '143', null, null, '0');
+INSERT INTO `user_info` VALUES ('1', '小明', '男', '广州天河元岗路白云小区三街4栋805', '18647895487', '20', '18647895487@163.com', '440982205487458746', '0');
+INSERT INTO `user_info` VALUES ('2', '小黄daaa', '男', '广州天河元岗路白云小区三街4栋805', '18627895487', '20', '18647895487@163.com', '440982204487458746', '0');
+INSERT INTO `user_info` VALUES ('11', '789', '7', '7898796', '78978', '78987', '789879', '87978', '0');
+INSERT INTO `user_info` VALUES ('12', '456', '6', '345', '34656', '45645', '345', '456', '0');
+INSERT INTO `user_info` VALUES ('13', '3246', '4', '146', '3246', '16', '646', '143', '0');
 
 -- ----------------------------
 -- Table structure for user_manage
@@ -334,7 +332,7 @@ INSERT INTO `user_info` VALUES ('13', '3246', '4', '146', '3246', '16', '646', '
 DROP TABLE IF EXISTS `user_manage`;
 CREATE TABLE `user_manage` (
   `user_id` int(8) NOT NULL AUTO_INCREMENT,
-  `user_balance` double(18,0) DEFAULT NULL,
+  `user_balance` double(18,0) DEFAULT '0',
   `user_status` int(1) DEFAULT '1',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
