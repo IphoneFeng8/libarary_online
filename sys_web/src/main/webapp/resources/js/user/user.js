@@ -1,56 +1,76 @@
 
 $(function () {
-    var totalRecord, currentPage;
-    //显示第一页
-    to_page(1);
+
+    //获取地址栏参数
+    $.getUrlParam = function(name) {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null) return decodeURI(r[2]);
+        return null;
+    };
+    //
+    // var totalRecord, currentPage;
+    // //显示第一页
+    search_to_page(1);
     detailsBook();
     reserveBook();
     deliveryBook();
-    search_to_page();
+    //
+    // //显示学生信息
+    // function to_page(pageNo) {
+    //     $.ajax({
+    //         url: "/getBookByOption/" + pageNo,
+    //         type: "GET",
+    //         success: function (result) {
+    //             //1.解析并显示学生信息数据
+    //             build_userBook_table(result);
+    //             //2.解析并显示分页信息
+    //             build_page_info(result);
+    //             //3.解析并显示分页条数据
+    //             build_page_nav(result);
+    //             /*获取 userInfo*/
+    //             $.ajax({
+    //                 url: "/user/getUserInfo",
+    //                 type: "GET",
+    //                 success: function (result) {
+    //                     var userInfoById = result.data.userInfoById;
+    //                     $("#userId").text(userInfoById.userId);
+    //                     $("#username").text(userInfoById.nickname);
+    //                 }
+    //             })
+    //         }
+    //     })
+    // }
 
-    //显示学生信息
-    function to_page(pageNo) {
+    //图书列表展示，包括搜索功能
+    function search_to_page() {
+        var condition = $.getUrlParam("condition");
+        var search = $.getUrlParam("search");
+        var pageNo = $.getUrlParam("pageNo");
+
+        //修改搜索条件默认值
+        $("option").each(function () {
+            if ($(this).attr("value") === condition){
+                $("#option").val($(this).val());
+            }
+        });
+        //修改搜索框默认值
+        $("#searchingBox").val(search);
+
         $.ajax({
-            url: "/getBookByOption/" + pageNo,
             type: "GET",
-            success: function (result) {
-                //1.解析并显示学生信息数据
-                build_userBook_table(result);
-                //2.解析并显示分页信息
-                build_page_info(result);
-                //3.解析并显示分页条数据
-                build_page_nav(result);
-                /*获取 userInfo*/
-                $.ajax({
-                    url: "/user/getUserInfo",
-                    type: "GET",
-                    success: function (result) {
-                        var userInfoById = result.data.userInfoById;
-                        $("#userId").text(userInfoById.userId);
-                        $("#username").text(userInfoById.nickname);
-                    }
-                })
+            url: "/library_online/books/user?condition="+condition+"&search="+search+"&pageNo="+pageNo,
+            success: function (data) {
+
+                $("#username").text(data.data.nickname);
+                build_userBook_table(data);
+                build_page_info(data);
+                build_page_nav(data);
             }
         })
     }
 
-    //列表展示界面进行搜索
-    function search_to_page() {
-        $("#searching").on("click",function () {
-            $.ajax({
-                type: "GET",
-                url: "/user/userIndex/searching/"+$("#option").val()+"/"+$("#searchingBox").val(),
-                success: function (data) {
-                    if (data.code === 200){
-                        to_page(1);
-                    }
-                }
-            })
-        });
-    }
-
-
-    //解析并显示员工数据表
+    //解析并显示图书列表
     function build_userBook_table(result) {
         //清空table表格
         $("#userBook_table tbody").empty();
@@ -72,17 +92,19 @@ $(function () {
         })
     }
 
-//解析显示分页信息
+    //解析显示分页信息
     function build_page_info(result) {
         $("#page_info_area").empty();
-        $("#page_info_area").append("当前" + result.data.pageInfo.pageNum + "页,总共" + result.data.pageInfo.pages +
+        $("#page_info_area").append("当前" + result.data.pageInfo.pageNum + "页，总共" + result.data.pageInfo.pages +
             "页，总共" + result.data.pageInfo.total + "条记录");
         totalRecord = result.data.pageInfo.total;
         currentPage = result.data.pageInfo.pageNum;
     }
 
-//解析显示分页导航条
+    //解析显示分页导航条
     function build_page_nav(result) {
+        var condition = $.getUrlParam("condition");
+        var search = $.getUrlParam("search");
         $("#page_nav_area").empty();
         var ul = $("<ul></ul>").addClass("pagination");
         var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
@@ -90,29 +112,31 @@ $(function () {
         var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
         var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
         //如果没有前一页，前一页和首页就不能点
-        if (result.data.pageInfo.hasPreviousPage == false) {
+        if (result.data.pageInfo.hasPreviousPage === false) {
             firstPageLi.addClass("disabled");
             prePageLi.addClass("disabled");
         } else {
             //首页
             firstPageLi.click(function () {
-                to_page(1);
+                location.href = "getBookList.html?condition="+condition+"&search="+search+"&pageNo=1";
             });
             prePageLi.click(function () {
-                to_page(result.data.pageInfo.pageNum - 1);
+                location.href = "getBookList.html?condition="+condition+"&search="+search+"&pageNo="+result.data.pageInfo.pageNum - 1;
             });
         }
-        if (result.data.pageInfo.hasNextPage == false) {
+        if (result.data.pageInfo.hasNextPage === false) {
             nextPageLi.addClass("disabled");
             lastPageLi.addClass("disabled");
         } else {
             //构建点击事件
 
             nextPageLi.click(function () {
-                to_page(result.data.pageInfo.pageNum + 1);
+                location.href = "getBookList.html?condition="+condition+"&search="+search+"&pageNo="+result.data.pageInfo.pageNum + 1;
+
             });
             lastPageLi.click(function () {
-                to_page(result.data.pageInfo.lastPage);
+                location.href = "getBookList.html?condition="+condition+"&search="+search+"&pageNo="+result.data.pageInfo.lastPage;
+
             })
         }
         //添加首页和前一页
@@ -121,12 +145,12 @@ $(function () {
         $.each(result.data.pageInfo.navigatepageNums, function (index, item) {
             var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
             //如果是当前选中页面，添加active标识
-            if (result.data.pageInfo.pageNum == item) {
+            if (result.data.pageInfo.pageNum === item) {
                 numLi.addClass("active");
             }
             //给每个页码添加点击就跳转
             numLi.click(function () {
-                to_page(item);
+                location.href = "getBookList.html?condition="+condition+"&search="+search+"&pageNo="+item;
             });
             ul.append(numLi);
         });
@@ -136,22 +160,27 @@ $(function () {
         navEle.appendTo("#page_nav_area");
     }
 
+    //点击搜索
+    $("#searching").on("click",function () {
+        location.href = "getBookList.html?condition="+$("#option").val()+"&search="+$("#searchingBox").val()+"&pageNo=1";
+    });
+
+
     /**
      * 3.详细界面 模块
      */
     function detailsBook() {
         //为详情按钮绑定弹出modal框事件
         //1.因为在按钮创建之前就绑定了click，所以用普通click方法绑定不上
-
         $(document).on("click", ".details_btn", function () {
             var bookIsbn = $(this).parents("tr").find("td:eq(2)").text();
             $.ajax({
-                url: "/user/getBookByIsbn/" + bookIsbn,
+                url: "/library_online/books/user/bookIsbn/" + bookIsbn,
                 type: "GET",
                 success: function (result) {
                     $("#userBookDetails_table tbody").empty();
-                    var bookList = result;
-                    //userBookList
+                    var bookList = result.data.list;
+
                     $("#bookDetailsModal").modal({
                         backdrop: "static"
                     });
@@ -183,9 +212,10 @@ $(function () {
             /*获取点击当前行的按钮 的 book_id*/
             var bookId = $(this).parents("tr").find("td:eq(0)").text();
             $.ajax({
-                url: "/user/getBookById/" + bookId,
+                url: "/library_online/books/user/bookId/" + bookId,
                 type: "GET",
                 success: function (result) {
+                    result = result.data.book;
                     $("#bookDetailsModal").modal('hide');
                     $("#bookReserveModal").modal({
                         backdrop: "static"
@@ -205,16 +235,24 @@ $(function () {
             });
             //2.为模态框中的确认按钮绑定事件，提交在线预约订单
             $("#book_reserve_btn").click(function () {
-                $.ajax({
-                    url: "/user/saveReserve/" + $("#book_id_input").text() + "/" + $("#borrow_time_date").val(),
-                    type: "POST",
-                    success: function (result) {
-                        if (result.code == 200) {
-                            $("#bookReserveModal").modal('hide');
+
+                var borrow_time = $("#borrow_time_date").val();
+
+                if (new Date(borrow_time) - new Date() < 0 || new Date(borrow_time) - new Date() > 3*24*60*60*1000){
+                    alert("最多只能选择3天后，请重新选择时间");
+                } else {
+                    $.ajax({
+                        url: "/reserveRecord/user/" + $("#book_id_input").text() + "/" + borrow_time,
+                        type: "POST",
+                        success: function (result) {
+                            if (result.code === 200) {
+                                $("#bookReserveModal").modal('hide');
+                                alert("成功预约!")
+                            }
                         }
-                        alert("成功预约!")
-                    }
-                })
+                    })
+                }
+
             })
 
         })

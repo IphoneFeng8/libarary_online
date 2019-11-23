@@ -3,8 +3,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.library_online.sys_dao.UserDao">
     <!--登录-->
-    <select id="login" parameterType="java.lang.String" resultType="int">
-        select count(*) from user where username = #{username} and user_pwd = #{userPwd}
+    <select id="login" parameterType="java.lang.String" resultType="user">
+        select * from user where username = #{username}
     </select>
 
+    <!--验证是否信息是否已被注册-->
+    <select id="verifyPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from user_info where user_phone = #{userPhone}
+    </select>
+
+    <select id="verifyIdCard" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from user_info where user_id_card = #{userIdCard}
+    </select>
+
+    <!--注册保存用户信息-->
+    <insert id="saveUser" parameterType="user" useGeneratedKeys="true" keyProperty="userId">
+        insert into user(username,user_pwd) values(#{username},#{userPwd})
+    </insert>
+
+    <!--注册保存用户信息-->
+    <insert id="saveUserInfo" parameterType="userInfo">
+        insert into user_info(nickname, user_sex, user_address, user_phone, user_age, user_email, user_id_card)
+        values(#{nickname},#{userSex},#{userAddress},#{userPhone},#{userAge},#{userEmail},#{userIdCard})
+    </insert>
+
+    <!--注册创建用户管理信息-->
+    <insert id="saveUserManage" parameterType="userInfo">
+        insert into user_manage values(#{userId},0,1)
+    </insert>
+
+    <!--通过user_id 查询 userInfo-->
+    <select id="getUserInfoById" parameterType="java.lang.Integer" resultType="userInfo">
+        select * from user_info where user_id = #{userId}
+    </select>
 </mapper>

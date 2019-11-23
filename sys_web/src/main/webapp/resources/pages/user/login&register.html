@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
     <script src="../../js/public/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="../../js/user/util.js"></script>
     <script src="../../js/user/main.js"></script>
 
@@ -37,7 +38,6 @@
             <ul>
                 <li><a href="#1">简介</a></li>
                 <li><a href="#2">登录</a></li>
-                <!-- <li><a href="/auth/register">注册</a></li>-->
                 <li><a href="#3">注册</a></li>
             </ul>
         </nav>
@@ -51,23 +51,18 @@
             <h2 class="major">登录</h2>
             <form method="post" action="javascript:void(0);">
                 <div class="field half first">
-                    <label for="username1">用户名    <span class="glyphicon glyphicon-exclamation-sign loginSpan" aria-hidden="true" style="display:none" ></span>
-                        <span class="sr-only loginSpan" style="display:none"><strong><font color="red">用户名不存在！</font></strong></span></label>
+                    <label for="username1">用户名 </label>
                     <input type="text" name="Email" id="username1">
                 </div>
                 <div class="field half">
-                    <label for="pwd2">密码</label>
-                    <input type="password" name="Password" id="pwd2">
+                    <label for="pwd">密码</label>
+                    <input type="password" name="Password" id="pwd">
                 </div>
                 <ul class="actions">
                     <li><input id="login2" type="submit" value="登录" class="special"></li>
                     <li><input type="reset" value="清空"></li>
                 </ul>
                 <br>
-                <div class="field half first">
-                    <input value="week" id="remember_me" name="remember_me" type="checkbox" checked="">
-                    <label for="remember_me">记住我</label>
-                </div>
             </form>
 
             <br>
@@ -76,57 +71,63 @@
             </div>
             <div class="close">Close</div></article>
         <article id="3" style="display: none;">
-            <h2 class="major">注册></h2>
-            <form method="post" action="javascript:void(0);">
+            <h2 class="major">注册</h2>
                 <div class="field half first">
-                    <label for="username2">用户名   <span class="glyphicon glyphicon-exclamation-sign registerSpan" aria-hidden="true" style="display:none" ></span>
-                        <span class="sr-only registerSpan" style="display:none"><strong><font color="red">用户名已存在！</font></strong></span>
+                    <label for="pwd1">密码
+                        <span class="sr-only tipsSpan"></span></label>
+                    <input type="password" name="password" id="pwd1" class="verify">
+                </div>
+                <div class="field half">
+                    <label for="pwd2">确认密码
+                        <span class="sr-only tipsSpan"></span></label>
+                    <input type="password" name="password" id="pwd2" class="verify">
+                </div>
+                <div class="field half first">
+                    <label for="nickname">姓名
+                        <span class="sr-only tipsSpan"></span>
                     </label>
-                    <input type="text" name="username" id="username2">
+                    <input type="text" name="nickname" id="nickname" class="verify">
                 </div>
                 <div class="field half">
-                    <label for="nickname">姓名</label>
-                    <input type="text" name="nickname" id="nickname">
+                    <label for="phone">手机号
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="phone" id="phone" class="verify">
                 </div>
                 <div class="field half first">
-                    <label for="pwd3">密码</label>
-                    <input type="password" name="password" id="pwd3">
+                    <label for="id_card">身份证
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="id_card" id="id_card" class="verify">
                 </div>
                 <div class="field half">
-                    <label for="phone">手机号</label>
-                    <input type="text" name="phone" id="phone">
+                    <label for="sex">性别
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="sex" id="sex" class="verify">
                 </div>
                 <div class="field half first">
-                    <label for="alipay">支付宝</label>
-                    <input type="text" name="alipay" id="alipay">
+                    <label for="age">年龄
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="age" id="age" class="verify">
                 </div>
                 <div class="field half">
-                    <label for="id_card">身份证</label>
-                    <input type="text" name="id_card" id="id_card">
+                    <label for="email">邮箱
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="email" id="email" class="verify">
                 </div>
-                <div class="field half first">
-                    <label for="sex">性别</label>
-                    <input type="text" name="sex" id="sex">
-                </div>
-                <div class="field half">
-                    <label for="age">年龄</label>
-                    <input type="text" name="age" id="age">
-                </div>
-                <div class="field half first">
-                    <label for="email">邮箱</label>
-                    <input type="text" name="email" id="email">
-                </div>
-                <div class="field half">
-                    <label for="address">地址</label>
-                    <input type="text" name="address" id="address">
+                <div class="field">
+                    <label for="address">地址
+                        <span class="sr-only tipsSpan"></span>
+                    </label>
+                    <input type="text" name="address" id="address" class="verify">
                 </div>
                 <ul class="actions">
                     <li><input id="login3" type="submit" value="注册" class="special"></li>
                     <li><input type="reset" value="清空"></li>
                 </ul>
-            </form>
-
-
             <div class="close">Close</div></article>
     </div>
 
@@ -141,78 +142,150 @@
 
 <script>
     $(function () {
-        /*登录时验证用户名是否存在*/
-        $("#username1").blur(function () {
-            var username1 = document.getElementById("username1");
-            $.ajax({
-                url:"/user/verifyUser",
-                data:{username:username1.value},
-                type:"post",
-                dataType:"json",
-                success:function (data) {
-                    if(data == 0){
-                        $(".loginSpan").attr("style","display:");
-                    }else {
-                        $(".loginSpan").attr("style","display:none");
-                    }
-                }
-            })
+
+        /*注册时验证信息不能为空*/
+        $(".verify").on("blur",function () {
+            var val = $(this).val();
+            var tips = $(this).parents().children(":first").children(":first");
+            if (val === ""){
+                tips.html("不能为空！")
+            } else {
+                tips.empty();
+            }
         });
-        /*注册时验证用户名是否存在*/
-        $("#username2").blur(function () {
-            var username2 = document.getElementById("username2");
-            $.ajax({
-                url:"/user/verifyUser",
-                data:{username:username2.value},
-                type:"post",
-                dataType:"json",
-                success:function (data) {
-                    if(data == 0){
-                        $(".registerSpan").attr("style","display:none");
-                    }else {
-                        $(".registerSpan").attr("style","display:");
-                    }
+
+        /*注册时验证手机是否已存在以及格式是否正确*/
+        $("#phone").blur(function () {
+            var val = $(this).val();
+            var tips = $(this).parents().children(":first").children(":first");
+            if (val !== ""){
+                if (/^1[3456789]\d{9}$/.test(val)) {
+                    $.ajax({
+                        url:"/library_online/user/verifyPhone",
+                        data:{userPhone:val},
+                        type:"GET",
+                        dataType:"json",
+                        success:function (data) {
+                            if(data.code === 200){
+                                tips.empty();
+                            }else {
+                                tips.html("手机号已被注册！");
+                            }
+                        }
+                    })
+                } else {
+                    tips.html("手机格式不符合！");
                 }
-            })
+
+            }
         });
+
+        /*注册时验证身份证是否已存在以及格式是否正确*/
+        $("#id_card").blur(function () {
+            var val = $(this).val();
+            var tips = $(this).parents().children(":first").children(":first");
+            if (val !== "") {
+                if (/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/.test(val)){
+                    $.ajax({
+                        url:"/library_online/user/verifyIdCard",
+                        data:{userIdCard:val},
+                        type:"GET",
+                        dataType:"json",
+                        success:function (data) {
+                            if(data.code === 200){
+                                tips.empty();
+                            }else {
+                                tips.html("身份证已被注册！");
+                            }
+                        }
+                    })
+                } else {
+                    tips.html("身份证格式不符合！")
+                }
+
+            }
+        });
+
+        /*注册时验证密码是否相同*/
+        $("#pwd2").blur(function () {
+            var pwd1 = $("#pwd1").val();
+            var pwd2 = $("#pwd2").val();
+            var tips = $(this).parents().children(":first").children(":first");
+
+            if (pwd1 !== "" && pwd2 !== ""){
+                if (pwd1 !== pwd2){
+                    tips.html("两次密码不一样！");
+                } else {
+                    tips.empty();
+                }
+            }
+        });
+
+        /*注册时验证邮箱格式*/
+        $("#email").blur(function () {
+            var val = $(this).val();
+            var tips = $(this).parents().children(":first").children(":first");
+            if (/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(val)){
+                tips.empty();
+            } else {
+                tips.html("邮件格式不符合！")
+            }
+        });
+
+        /*注册时验证年龄格式*/
+        $("#age").blur(function () {
+            var val = $(this).val();
+            var tips = $(this).parents().children(":first").children(":first");
+            if (val !== ""){
+                if (/^[0-9]*$/.test(val)){
+                    tips.empty();
+                } else {
+                    tips.html("年龄格式不符合！")
+                }
+            }
+        });
+
         /*确认注册*/
         $("#login3").click(function () {
-            /*private Integer userId;
-              private String nickname;
-              private String userSex;
-              private String userAddress;
-              private String userPhone;
-              private Integer userAge;
-              private String userEmail;
-              private String userAlipay;
-              private String userIdCard;*/
-            var username = document.getElementById("username2");
             var nickname = document.getElementById("nickname");
-            var userPwd = document.getElementById("pwd3");
+            var userPwd = document.getElementById("pwd2");
             var userEmail = document.getElementById("email");
             var userAddress = document.getElementById("address");
             var userSex = document.getElementById("sex");
-            var userAlipay = document.getElementById("alipay");
             var userPhone = document.getElementById("phone");
             var userAge = document.getElementById("age");
             var userIdCard = document.getElementById("id_card");
-            $.ajax({
-                url:"/user/register",
-                data:{'username':username.value,'nickname':nickname.value,'userPwd':userPwd.value,'userEmail':userEmail.value,
-                    'userPhone':userPhone.value,'userSex':userSex.value,'userAddress':userAddress.value,'userAlipay':userAlipay.value,
-                    'userAge':userAge.value,'userIdCard':userIdCard.value},
-                dataType:"json",
-                type:"post",
-                success:function (data) {
-                    alert("注册成功！请登录！");
+
+            $(".verify").each(function () {
+                $(this).blur();
+            });
+
+            var flag = true;
+            $(".tipsSpan").each(function () {
+                if ($(this).html() !== ""){
+                    flag = false;
                 }
-            })
+            });
+            if (flag){
+                $.ajax({
+                    url:"/library_online/user/register",
+                    data:{'nickname':nickname.value,'userPwd':userPwd.value,'userEmail':userEmail.value,
+                        'userPhone':userPhone.value,'userSex':userSex.value,'userAddress':userAddress.value,
+                        'userAge':userAge.value,'userIdCard':userIdCard.value},
+                    dataType:"json",
+                    type:"POST",
+                    success:function (data) {
+                        alert("注册成功！请登录！");
+                        window.location.href="login&register.html#2";
+                    }
+                })
+            }
         });
 
         /*确定登录*/
         $("#login2").click(function () {
             var username1 = document.getElementById("username1");
-            var pwd2 = document.getElementById("pwd2");
+            var pwd2 = document.getElementById("pwd");
             $.ajax({
                 url:"/library_online/user/"+username1.value+"/"+pwd2.value,
                 type:"GET",
@@ -223,21 +296,27 @@
                         alert(data.message);
                     }
                     else {
+                        $.cookie('library_user', username1.value, {path: '/', expires: 7});
                         window.location.href="userIndex.html";
                     }
                 }
             })
         })
 
-
     });
 
 </script>
 <style>
     .sr-only{
-        width:120px;
+        width:150px;
         overflow: visible;
         clip:auto;
+        margin-left: 10px;
+        color: red;
+        font-weight: bolder;
+    }
+    .field{
+        margin-bottom: 20px;
     }
 </style>
 </html>

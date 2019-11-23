@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.library_online.sys_dao.BookDao">
+
+    <!--根据条件获取图书分类信息( user )-->
+    <select id="userGetBooks"  resultType="java.util.HashMap">
+        SELECT
+        b.book_picture,
+        b.library_name,
+        b.book_name,
+        b.book_isbn,
+        b.book_press,
+        b.book_date,
+        b.book_autor,
+        b.book_language,
+        bt.type AS bookType
+        FROM
+        book b,books_type bt
+        WHERE
+        bt.type_id = b.book_type
+        <if test="bookName != null">
+            AND b.book_name LIKE #{bookName}
+        </if>
+        <if test="libraryName != null">
+            AND b.library_name LIKE #{libraryName}
+        </if>
+        <if test="bookIsbn != null">
+            AND b.book_isbn LIKE #{bookIsbn}
+        </if>
+        <if test="bookAutor != null">
+            AND b.book_autor LIKE #{bookAutor}
+        </if>
+        <if test="bookType != null">
+            AND bt.type LIKE #{bookType}
+        </if>
+        group by b.book_isbn
+    </select>
+
+    <!--获取图书信息，根据 isbn( user )-->
+    <select id="userGetBookInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+            b.book_id AS bookId,
+            b.library_name AS libraryName,
+            li.library_address AS libraryAddress
+        from
+            book b,library_info li
+        where b.library_id = li.library_id
+          and book_status = 0
+          and book_isbn = #{bookIsbn};
+    </select>
+
+    <!--获取图书信息，根据图书id( user )-->
+    <select id="userGetBookById" parameterType="java.lang.Integer" resultType="book">
+        SELECT
+            book_picture,
+            book_id,
+            book_name,
+            library_id,
+            library_name,
+            book_press,
+            book_autor
+        FROM
+            book
+        WHERE
+            book_id = #{bookId}
+    </select>
+</mapper>
