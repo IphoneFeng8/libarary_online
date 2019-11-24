@@ -24,4 +24,7 @@ public interface BookDao {
 
     /*根据图书id获得图书信息*/
     Book userGetBookById(Integer bookId);
+
+    /*修改书的信息或者状态*/
+    void setBookInfo(Book book);
 }

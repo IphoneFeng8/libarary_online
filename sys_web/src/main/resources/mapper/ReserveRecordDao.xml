@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.library_online.sys_dao.ReserveRecordDao">
+    <!--保存在线预约表-->
+    <insert id="saveReserveRecord" parameterType="reserveRecord">
+
+    INSERT INTO reserve_record (borrow_id, reserve_time,borrow_time)
+    VALUES
+    (#{borrowId}, #{reserveTime},#{borrowTime})
+    </insert>
+
+    <!--修改预约状态-->
+    <update id="setReserveRecord" parameterType="reserveRecord">
+        UPDATE reserve_record
+        SET reserve_status = #{reserveStatus}
+        WHERE
+            reserve_id = #{reserveId}
+    </update>
+
+    <!--查找预约信息-->
+    <select id="getReserveRecord" resultMap="reserveRecord">
+        SELECT
+        nickname,
+        b.book_id,
+        b.library_name,
+        book_name,
+        u.user_id,
+        reserve_time,
+        d.borrow_time,
+        reserve_status,
+        d.borrow_id
+        FROM
+        reserve_record d,
+        user_info u,
+        book b,
+        borrow_record br
+        WHERE
+        br.borrow_id = d.borrow_id
+        AND b.book_id = br.book_id
+        AND br.user_id = u.user_id
+        <if test="libraryId != null">
+            AND
+            b.library_id = #{libraryId}
+        </if>
+        <if test="userId != null">
+            AND
+            b.library_id = #{userId}
+        </if>
+    </select>
+    <resultMap id="reserveRecord" type="reserveRecord">
+        <id property="reserveId" column="reserve_id"/>
+        <result property="borrowId" column="borrow_id"/>
+        <result property="reserveTime" column="reserve_time"/>
+        <result property="borrowTime" column="borrow_time"/>
+        <result property="reserveStatus" column="reserve_status"/>
+
+        <association property="userInfo" column="user_id" javaType="userInfo">
+            <id property="userId" column="user_id"/>
+            <result column="nickname" property="nickname"/>
+        </association>
+        <association property="book" column="book_id" javaType="book">
+            <id property="bookId" column="book_id"/>
+            <result column="bookName" property="book_name"/>
+            <result property="bookName" column="book_name"/>
+        </association>
+    </resultMap>
+</mapper>

@@ -11,7 +11,6 @@
     <select id="verifyPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(*) from user_info where user_phone = #{userPhone}
     </select>
-
     <select id="verifyIdCard" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(*) from user_info where user_id_card = #{userIdCard}
     </select>
@@ -36,4 +35,17 @@
     <select id="getUserInfoById" parameterType="java.lang.Integer" resultType="userInfo">
         select * from user_info where user_id = #{userId}
     </select>
+
+    <!--修改个人资料-->
+    <update id="setUserInfo" parameterType="userInfo">
+        update user_info set
+        <if test="#{nickname} != null">
+            nickname=#{nickname},
+        </if>
+        <if test="#{userAddress} != null">
+            user_address=#{userAddress},
+        </if>
+        user_id = #{userId}
+        where user_id=#{userId}
+    </update>
 </mapper>

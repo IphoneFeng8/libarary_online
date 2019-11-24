@@ -1,0 +1,86 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.library_online.sys_dao.ReturnRecordDao">
+
+    <!--新增还书表纪录-->
+    <insert id="saveReturnRecord" parameterType="returnRecord"  useGeneratedKeys="true" keyProperty="returnId">
+        INSERT INTO return_record (
+            user_id,
+            book_id,
+            borrow_time,
+            return_time,
+            fine_paid
+        )
+        VALUES
+            (#{userId}, #{bookId}, #{borrowTime},#{returnTime},#{finePaid})
+
+    </insert>
+
+    <!--获取还书表记录-->
+    <select id="getReturnRecord" resultMap="returnMap">
+        SELECT
+        *
+        FROM
+        return_record r
+        LEFT JOIN book b ON r.book_id = b.book_id
+        LEFT JOIN user_info u ON r.user_id = u.user_id
+        <where>
+        <if test="keyword != null">
+            AND (
+            CONCAT(
+            r.return_id,
+            b.book_name,
+            u.nickname
+            ) LIKE #{keyword}
+            )
+        </if>
+        <if test="userId != null">
+            AND
+            r.user_id = #{userId}
+        </if>
+        <if test="libraryId != null">
+            AND
+            b.libraryId = #{libraryId}
+        </if>
+        </where>
+    </select>
+    <resultMap type="returnRecord" id="returnMap">
+        <id property="returnId" column="return_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="bookId" column="book_id"/>
+        <result property="finePaid" column="fine_paid"/>
+        <result property="borrowTime" column="borrow_time"/>
+        <result property="returnTime" column="return_time"/>
+
+        <association property="book" column="book_id" javaType="book">
+            <id property="bookId" column="book_id"/>
+            <result property="bookName" column="book_name"/>
+            <result property="bookPicture" column="book_picture"/>
+            <result property="bookIsbn" column="book_isbn"/>
+            <result property="bookPress" column="book_press"/>
+            <result property="bookDate" column="book_date"/>
+            <result property="bookPage" column="book_page"/>
+            <result property="bookAutor" column="book_autor"/>
+            <result property="bookLanguage" column="book_language"/>
+            <result property="bookType" column="book_type"/>
+            <result property="bookPrice" column="book_price"/>
+            <result property="bookStatus" column="book_status"/>
+            <result property="borrowedCount" column="borrowed_count"/>
+            <result property="libraryId" column="library_id"/>
+            <result property="libraryName" column="library_name"/>
+        </association>
+
+        <association property="userInfo" column="user_id" javaType="userInfo">
+            <id property="userId" column="user_id"/>
+            <result property="nickname" column="nickname"/>
+            <result property="userSex" column="user_sex"/>
+            <result property="userAddress" column="user_address"/>
+            <result property="userPhone" column="user_phone"/>
+            <result property="userAge" column="user_age"/>
+            <result property="userEmail" column="user_email"/>
+            <result property="userIdCard" column="user_id_card"/>
+        </association>
+    </resultMap>
+
+</mapper>

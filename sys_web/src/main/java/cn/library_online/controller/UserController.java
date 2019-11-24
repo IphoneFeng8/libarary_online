@@ -23,12 +23,12 @@ public class UserController {
     @GetMapping("/{username}/{password}")
     public Msg Login(@PathVariable("username") String username,
                      @PathVariable("password") String password,
-                     HttpServletRequest request){
+                     HttpServletRequest request) {
 
         List<User> users = userService.login(username);
 
-        if (users.size() == 1){
-            if (password.equals(users.get(0).getUserPwd())){
+        if (users.size() == 1) {
+            if (password.equals(users.get(0).getUserPwd())) {
                 UserInfo userInfo = userService.getUserInfoById(users.get(0).getUserId());
                 request.getSession().setAttribute("nickname", userInfo.getNickname());
                 request.getSession().setAttribute("userId", userInfo.getUserId());
@@ -36,7 +36,7 @@ public class UserController {
             } else {
                 return Msg.error("账号不存在！");
             }
-        } else if (users.size() > 1){
+        } else if (users.size() > 1) {
             return Msg.error("发生未知错误！");
         } else {
             return Msg.error("密码错误！");
@@ -52,7 +52,7 @@ public class UserController {
     public Msg verifyPhone(String userPhone) {
         Integer count = userService.verifyPhone(userPhone);
 
-        if (count == 0){
+        if (count == 0) {
             return Msg.success();
         } else {
             return Msg.error();
@@ -66,7 +66,7 @@ public class UserController {
     public Msg verifyIdCard(String userIdCard) {
         Integer count = userService.verifyIdCard(userIdCard);
 
-        if (count == 0){
+        if (count == 0) {
             return Msg.success();
         } else {
             return Msg.error();
@@ -77,13 +77,38 @@ public class UserController {
      * 注册
      */
     @PostMapping("/register")
-    public Msg register(UserInfo userInfo,String userPwd){
+    public Msg register(UserInfo userInfo, String userPwd) {
         User user = new User();
         user.setUsername(userInfo.getUserPhone());
         user.setUserPwd(userPwd);
 
-        userService.register(user,userInfo);
+        userService.register(user, userInfo);
 
+        return Msg.success();
+    }
+
+    /**
+     * 展示个人资料
+     */
+    @GetMapping("/userInfo")
+    public Msg showUserInfo(HttpServletRequest request) {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+
+        UserInfo userInfo = userService.getUserInfoById(userId);
+
+        return Msg.success().add("userInfo", userInfo);
+    }
+
+    /**
+     * 修改个人资料
+     */
+    @PutMapping("/setUserInfo")
+    public Msg setUserInfo(UserInfo userInfo, HttpServletRequest request) {
+
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        userInfo.setUserId(userId);
+
+        userService.setUserInfo(userInfo);
         return Msg.success();
     }
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.library_online.sys_dao.DeliveryRecordDao">
+
+    <!--保存快递预约表-->
+    <insert id="saveDeliveryRecord" parameterType="deliveryRecord">
+            INSERT INTO delivery_record (
+                borrow_id,
+                delivery_name,
+                delivery_phone,
+                delivery_address,
+                reserve_time
+            )
+            VALUES
+                (
+                    #{borrowId},
+                    #{deliveryName},
+                    #{deliveryPhone},
+                    #{deliveryAddress},
+                    #{reserveTime}
+	            )
+    </insert>
+
+    <!--查询快递表信息-->
+    <select id="getDeliveryRecord" resultMap="deliveryRecord">
+        SELECT
+            nickname,
+            b.book_id,
+            book_name,
+            delivery_name,
+            delivery_phone,
+            delivery_address,
+            delivery_status
+        FROM
+            delivery_record d,
+            user_info u,
+            book b,
+            borrow_record br
+        WHERE
+            br.borrow_id = d.borrow_id
+        AND b.book_id = br.book_id
+        AND br.user_id=u.user_id
+        AND delivery_status &lt;&gt; 0
+        <if test="libraryId != null">
+            AND
+            b.library_id = #{libraryId}
+        </if>
+        ORDER BY
+            delivery_status
+    </select>
+    <resultMap id="deliveryRecord" type="deliveryRecord">
+        <id property="deliveryId" column="delivery_id"/>
+        <result property="borrowId" column="borrow_id"/>
+        <result property="deliveryName" column="delivery_name"/>
+        <result property="deliveryPhone" column="delivery_phone"/>
+        <result property="deliveryAddress" column="delivery_address"/>
+        <result property="deliveryTime" column="delivery_time"/>
+        <result property="deliveryStatus" column="delivery_status"/>
+
+        <association property="userInfo" column="user_id" javaType="userInfo">
+            <id property="userId" column="user_id"/>
+            <result column="nickname" property="nickname"/>
+        </association>
+        <association property="book" column="book_id" javaType="book">
+            <id property="bookId" column="book_id"/>
+            <result column="bookName" property="book_name"/>
+        </association>
+    </resultMap>
+
+    <!--修改快递表状态-->
+    <update id="setDeliveryRecord" parameterType="deliveryRecord">
+        UPDATE delivery_record
+        SET delivery_status = #{deliveryStatus}
+        WHERE
+            delivery_id = #{deliveryId}
+    </update>
+</mapper>

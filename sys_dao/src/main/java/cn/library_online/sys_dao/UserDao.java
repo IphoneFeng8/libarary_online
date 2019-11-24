@@ -25,4 +25,7 @@ public interface UserDao {
     /*通过id获得学生信息*/
     UserInfo getUserInfoById(Integer userId);
 
+    /*修改个人资料*/
+    void setUserInfo(UserInfo userInfo);
+
 }

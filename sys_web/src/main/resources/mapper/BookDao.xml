@@ -53,16 +53,18 @@
     <!--获取图书信息，根据图书id( user )-->
     <select id="userGetBookById" parameterType="java.lang.Integer" resultType="book">
         SELECT
-            book_picture,
-            book_id,
-            book_name,
-            library_id,
-            library_name,
-            book_press,
-            book_autor
+            *
         FROM
             book
         WHERE
             book_id = #{bookId}
     </select>
+
+    <!--修改图书的信息或者状态-->
+    <update id="setBookInfo" parameterType="book">
+        UPDATE book
+        SET book_status = #{bookStatus}
+        WHERE
+            book_id = #{bookId}
+    </update>
 </mapper>

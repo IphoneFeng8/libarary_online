@@ -167,7 +167,7 @@ $(function () {
 
 
     /**
-     * 3.详细界面 模块
+     * 详细界面 模块
      */
     function detailsBook() {
         //为详情按钮绑定弹出modal框事件
@@ -202,7 +202,7 @@ $(function () {
     }
 
     /**
-     * 4.在线预约 模块
+     * 在线预约 模块
      */
     function reserveBook() {
         //为详情按钮绑定弹出modal框事件
@@ -240,14 +240,16 @@ $(function () {
 
                 if (new Date(borrow_time) - new Date() < 0 || new Date(borrow_time) - new Date() > 3*24*60*60*1000){
                     alert("最多只能选择3天后，请重新选择时间");
-                } else {
+                } else if (borrow_time === "") {
+                    alert("请选择预约时间！")
+                }else {
                     $.ajax({
-                        url: "/reserveRecord/user/" + $("#book_id_input").text() + "/" + borrow_time,
+                        url: "/library_online/reserveRecord/user/" + $("#book_id_input").text() + "/" + borrow_time,
                         type: "POST",
                         success: function (result) {
+                            alert(result.message);
                             if (result.code === 200) {
                                 $("#bookReserveModal").modal('hide');
-                                alert("成功预约!")
                             }
                         }
                     })
@@ -259,7 +261,7 @@ $(function () {
     }
 
     /**
-     * 5.快递预约 模块
+     * 快递预约 模块
      */
     function deliveryBook() {
         //为详情按钮绑定弹出modal框事件
@@ -269,16 +271,13 @@ $(function () {
             /*获取点击当前行的按钮 的 book_id*/
             var bookId = $(this).parents("tr").find("td:eq(0)").text();
             $.ajax({
-                url: "/user/getBookAndUserInfo/" + bookId + "/" + $("#userId").text(),
+                url: "/library_online/deliveryRecord/user/" + bookId,
                 type: "GET",
                 success: function (result) {
                     $("#bookDetailsModal").modal('hide');
                     $("#bookDeliveryModal").modal({
                         backdrop: "static"
                     });
-                    /*msg.add("userInfo",userInfo);
-                    msg.add("book",book);
-                    return msg;*/
                     var userInfo = result.data.userInfo;
                     var book = result.data.book;
                     $("#bookDeliveryModal form")[0].reset();
@@ -288,8 +287,8 @@ $(function () {
                     $("#bookId_input").text(book.bookId);
                     $("#bookName_input").text(book.bookName);
                     $("#libraryName_input").text(book.libraryName);
-                    $("#userNickname_input").text(userInfo.nickname);
-                    $("#UserPhone_input").text(userInfo.userPhone);
+                    $("#userNickname_input").val(userInfo.nickname);
+                    $("#UserPhone_input").val(userInfo.userPhone);
                     $("#UserAddress_input").val(userInfo.userAddress);
 
                     $("#libraryId_input").val(book.libraryId);
@@ -298,7 +297,13 @@ $(function () {
             //2.为模态框中的确认按钮绑定事件，提交在线预约订单
             $("#book_delivery_btn").click(function () {
                 $.ajax({
-                    url: "/user/saveDelivery/" + $("#bookId_input").text()+ "/" + $("#userId").text()+ "/" + $("#UserAddress_input").val() + "/" + $("#borrowTime_date").val(),
+                    url: "/library_online/deliveryRecord/user",
+                    data:{
+                        bookId:$("#bookId_input").text(),
+                        deliveryName:$("#userNickname_input").val(),
+                        deliveryPhone:$("#UserPhone_input").val(),
+                        deliveryAddress:$("#UserAddress_input").val()
+                    },
                     type:"POST",
                     success: function (result) {
                         if (result.code == 200) {
